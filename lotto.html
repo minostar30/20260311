@@ -61,35 +61,51 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 10px;
+            flex-wrap: nowrap;
             margin-bottom: 48px;
         }
         .ball {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 1.25rem;
+            font-size: 1.125rem;
+            flex-shrink: 0;
             transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .ball:nth-child(1) { background: #424245; color: #fff; }
-        .ball:nth-child(2) { background: #5e5e62; color: #fff; }
-        .ball:nth-child(3) { background: #6e6e73; color: #fff; }
-        .ball:nth-child(4) { background: #7d7d82; color: #fff; }
-        .ball:nth-child(5) { background: #8e8e93; color: #fff; }
-        .ball:nth-child(6) { background: #9e9ea3; color: #fff; }
+        .ball.main { background: var(--black); color: #fff; }
         .ball.bonus {
-            background: var(--black);
-            color: #fff;
+            background: #e8e8ed;
+            color: var(--gray);
+        }
+        .bonus-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .bonus-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-weight: 500;
+            white-space: nowrap;
         }
         .ball.placeholder {
             background: var(--gray-bg);
             color: var(--gray);
             font-weight: 500;
+        }
+        .ball.main.placeholder { background: var(--gray-bg); }
+        .ball.bonus.placeholder { background: #e8e8ed; }
+        @media (max-width: 430px) {
+            .ball { width: 36px; height: 36px; font-size: 0.9375rem; }
+            .numbers-row { gap: 6px; }
+            .bonus-label { font-size: 0.625rem; }
+            .bonus-wrap { gap: 5px; }
         }
         .btn {
             width: 100%;
@@ -148,10 +164,10 @@
             font-weight: 600;
             font-size: 0.875rem;
         }
-        .history-num { background: #e8e8ed; color: var(--black); }
+        .history-num { background: var(--black); color: #fff; }
         .history-bonus {
-            background: var(--black) !important;
-            color: #fff !important;
+            background: #e8e8ed !important;
+            color: var(--gray) !important;
             font-weight: 600;
         }
         .history-time {
@@ -175,16 +191,19 @@
             <p class="subtitle">추천 번호를 받아보세요</p>
 
             <div class="numbers-row" id="numbers">
-                <span class="ball placeholder">—</span>
-                <span class="ball placeholder">—</span>
-                <span class="ball placeholder">—</span>
-                <span class="ball placeholder">—</span>
-                <span class="ball placeholder">—</span>
-                <span class="ball placeholder">—</span>
-                <span class="ball bonus placeholder" id="bonusBall">—</span>
+                <span class="ball main placeholder">—</span>
+                <span class="ball main placeholder">—</span>
+                <span class="ball main placeholder">—</span>
+                <span class="ball main placeholder">—</span>
+                <span class="ball main placeholder">—</span>
+                <span class="ball main placeholder">—</span>
+                <span class="bonus-wrap">
+                    <span class="bonus-label">보너스번호</span>
+                    <span class="ball bonus placeholder" id="bonusBall">—</span>
+                </span>
             </div>
 
-            <button class="btn" id="generateBtn">추천 받기</button>
+            <button class="btn" id="generateBtn">행운의 로또 번호 추천 받기</button>
 
             <div class="history" id="history">
                 <h2 class="history-title">추천 이력</h2>
@@ -214,9 +233,9 @@
 
         function displayNumbers(main, bonus, animate = true) {
             const mainHtml = main.map((n, i) => 
-                `<span class="ball${animate ? ' animate' : ''}" style="animation-delay: ${i * 0.06}s">${n}</span>`
+                `<span class="ball main${animate ? ' animate' : ''}" style="animation-delay: ${i * 0.06}s">${n}</span>`
             ).join('');
-            const bonusHtml = `<span class="ball bonus${animate ? ' animate' : ''}" style="animation-delay: 0.36s">${bonus}</span>`;
+            const bonusHtml = `<span class="bonus-wrap"><span class="bonus-label">보너스번호</span><span class="ball bonus${animate ? ' animate' : ''}" style="animation-delay: 0.36s">${bonus}</span></span>`;
             numbersEl.innerHTML = mainHtml + bonusHtml;
         }
 
