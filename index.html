@@ -22,7 +22,7 @@
         .content { width: 100%; max-width: 420px; }
         h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em; text-align: center; margin-bottom: 8px; }
         .subtitle { font-size: 1.125rem; color: var(--gray); text-align: center; margin-bottom: 56px; }
-        .numbers-row { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+        .numbers-row { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
         .ball { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.25rem; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
         .ball:nth-child(1) { background: #424245; color: #fff; }
         .ball:nth-child(2) { background: #5e5e62; color: #fff; }
@@ -32,15 +32,11 @@
         .ball:nth-child(6) { background: #9e9ea3; color: #fff; }
         .ball.bonus { background: var(--black); color: #fff; }
         .ball.placeholder { background: var(--gray-bg); color: var(--gray); font-weight: 500; }
-        .bonus-section { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 48px; }
-        .bonus-label { font-size: 0.875rem; color: var(--gray); font-weight: 500; }
         .btn { width: 100%; padding: 18px 24px; font-size: 1.0625rem; font-weight: 600; font-family: inherit; border: none; border-radius: 14px; cursor: pointer; background: var(--black); color: #fff; transition: background 0.2s, transform 0.15s; }
         .btn:hover { background: #333; }
         .btn:active { transform: scale(0.98); }
-        .history, .winner-section, .recommend-section { margin-top: 64px; padding-top: 48px; border-top: 1px solid #e8e8ed; }
-        .history-title, .winner-title, .recommend-title { font-size: 0.75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-        .winner-meta, .recommend-desc { font-size: 0.875rem; color: var(--gray); margin-bottom: 16px; }
-        .recommend-desc { margin-bottom: 20px; }
+        .history { margin-top: 64px; padding-top: 48px; border-top: 1px solid #e8e8ed; }
+        .history-title { font-size: 0.75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px; }
         .history-title { margin-bottom: 20px; }
         .history-item { display: flex; align-items: center; gap: 10px; padding: 14px 0; border-bottom: 1px solid #f5f5f7; font-size: 0.9375rem; }
         .history-item:last-child { border-bottom: none; }
@@ -48,13 +44,6 @@
         .history-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; background: #e8e8ed; color: var(--black); }
         .history-bonus { background: var(--black) !important; color: #fff !important; }
         .history-time { margin-left: auto; font-size: 0.8125rem; color: var(--gray); }
-        .winner-numbers, .recommend-numbers { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .recommend-numbers { justify-content: flex-start; gap: 10px; }
-        .winner-numbers .ball { width: 44px; height: 44px; font-size: 1rem; }
-        .recommend-numbers .ball { width: 40px; height: 40px; font-size: 0.9375rem; }
-        .winner-loading { font-size: 0.875rem; color: var(--gray); }
-        .recommend-item { margin-bottom: 20px; }
-        .recommend-label { font-size: 0.8125rem; color: var(--gray); margin-bottom: 8px; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .ball.animate { animation: fadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
@@ -67,9 +56,6 @@
             <div class="numbers-row" id="numbers">
                 <span class="ball placeholder">—</span><span class="ball placeholder">—</span><span class="ball placeholder">—</span>
                 <span class="ball placeholder">—</span><span class="ball placeholder">—</span><span class="ball placeholder">—</span>
-            </div>
-            <div class="bonus-section">
-                <span class="bonus-label">보너스</span>
                 <span class="ball bonus placeholder" id="bonusBall">—</span>
             </div>
             <button class="btn" id="generateBtn">추천 받기</button>
@@ -77,20 +63,10 @@
                 <h2 class="history-title">추천 이력</h2>
                 <div id="historyList"></div>
             </div>
-            <div class="winner-section" id="winnerSection">
-                <h2 class="winner-title">2026년 로또 1등 당첨번호</h2>
-                <div class="winner-meta" id="winnerMeta">로딩 중...</div>
-                <div class="winner-numbers" id="winnerNumbers"><span class="winner-loading">당첨번호를 불러오는 중입니다</span></div>
-            </div>
-            <div class="recommend-section" id="recommendSection">
-                <h2 class="recommend-title">데이터 분석 기반 추천</h2>
-                <p class="recommend-desc" id="recommendDesc">역대 1등 당첨 데이터 분석 중...</p>
-                <div id="recommendList"></div>
-            </div>
         </div>
     </section>
     <script>
-        const numbersEl = document.getElementById('numbers'), bonusBallEl = document.getElementById('bonusBall');
+        const numbersEl = document.getElementById('numbers');
         const generateBtn = document.getElementById('generateBtn'), historyList = document.getElementById('historyList');
         const history = [];
         function getRandomLotto() {
@@ -101,9 +77,9 @@
             return { main: mainNums, bonus };
         }
         function displayNumbers(main, bonus, animate = true) {
-            numbersEl.innerHTML = main.map((n,i) => `<span class="ball${animate?' animate':''}" style="animation-delay:${i*0.06}s">${n}</span>`).join('');
-            bonusBallEl.textContent = bonus; bonusBallEl.classList.remove('placeholder');
-            if (animate) { bonusBallEl.classList.add('animate'); bonusBallEl.style.animationDelay = '0.36s'; }
+            const mainHtml = main.map((n,i) => `<span class="ball${animate?' animate':''}" style="animation-delay:${i*0.06}s">${n}</span>`).join('');
+            const bonusHtml = `<span class="ball bonus${animate?' animate':''}" style="animation-delay:0.36s">${bonus}</span>`;
+            numbersEl.innerHTML = mainHtml + bonusHtml;
         }
         function addToHistory(main, bonus, time) {
             history.unshift({ main, bonus, time });
@@ -125,37 +101,6 @@
             displayNumbers(main, bonus); addToHistory(main, bonus, time);
             saveToSupabase(main, bonus);
         });
-        const winnerMetaEl = document.getElementById('winnerMeta'), winnerNumbersEl = document.getElementById('winnerNumbers');
-        const FALLBACK_WINNER = { drwNo: 1214, date: '2026-03-07', main: [10,15,19,27,30,33], bonus: 14 };
-        function renderWinner(data) {
-            winnerMetaEl.textContent = `${data.drwNo}회 · ${data.date} 추첨`;
-            winnerNumbersEl.innerHTML = data.main.map(n => `<span class="ball">${n}</span>`).join('') + `<span class="ball bonus">+${data.bonus}</span>`;
-        }
-        fetch('https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=1214').then(r=>r.json()).then(json=>{
-            if (json.returnValue==='success') renderWinner({ drwNo: json.drwNo, date: json.drwNoDate.replace(/(\d{4})(\d{2})(\d{2})/,'$1-$2-$3'), main: [json.drwtNo1,json.drwtNo2,json.drwtNo3,json.drwtNo4,json.drwtNo5,json.drwtNo6], bonus: json.bnusNo });
-            else renderWinner(FALLBACK_WINNER);
-        }).catch(()=>renderWinner(FALLBACK_WINNER));
-        const recommendDescEl = document.getElementById('recommendDesc'), recommendListEl = document.getElementById('recommendList');
-        const HISTORICAL_DATA = [[10,15,19,27,30,33,14],[3,8,12,24,31,45,18],[2,9,16,25,33,44,7],[5,11,18,29,36,42,21],[1,7,14,22,38,41,9],[4,13,20,28,35,43,17],[6,10,19,26,32,40,12],[8,15,23,31,37,44,5],[2,11,17,24,33,39,28],[9,14,21,30,36,45,3],[1,6,18,25,34,42,16],[7,12,20,29,38,43,11],[3,10,16,27,35,41,22],[5,13,19,28,32,44,8],[4,11,21,26,37,40,15],[2,8,17,23,31,45,33],[6,14,22,30,36,39,4],[9,15,18,25,34,42,27],[1,10,20,29,35,43,19],[7,12,16,24,33,41,6],[3,11,21,28,37,44,13],[5,8,17,26,32,40,31],[4,13,19,27,36,45,2],[2,9,14,22,38,43,18],[6,10,20,25,34,42,7],[1,11,16,23,30,39,28],[8,15,21,29,35,44,12],[5,12,18,26,33,41,9],[3,7,19,24,32,40,17],[4,14,22,28,37,45,6],[2,10,17,25,36,43,21],[9,13,20,27,34,42,11],[1,8,15,23,31,39,5],[6,11,21,29,35,44,19],[7,12,18,26,33,40,14],[5,10,16,24,38,45,3],[4,9,20,28,32,41,27],[2,13,19,22,30,43,8],[3,11,17,25,36,42,31],[8,14,21,27,37,44,10],[1,6,18,26,34,39,12],[7,15,20,23,35,41,4],[5,9,16,29,33,45,19],[4,10,19,24,31,40,22],[2,12,17,28,36,43,7],[6,11,21,25,38,42,14],[3,8,14,27,32,44,18],[9,13,18,22,30,39,5],[1,7,20,26,35,45,11],[5,10,16,23,34,41,28],[4,11,19,29,37,43,6],[2,9,15,24,33,40,21],[8,12,21,25,31,42,17],[3,6,18,28,36,44,13],[7,14,17,22,38,39,9],[1,10,19,27,32,45,4],[5,11,20,26,35,43,16],[4,8,14,23,30,41,33],[2,13,16,29,37,42,12],[6,9,18,24,34,40,7],[3,10,21,25,33,39,19],[8,15,17,28,36,44,5],[1,7,19,22,31,43,27],[5,12,18,26,38,45,11],[4,9,16,29,35,41,8],[2,11,20,24,32,42,15],[6,14,21,27,37,39,3],[3,8,15,23,34,40,28],[7,10,17,25,33,44,19],[1,13,18,28,36,43,6],[5,9,21,22,30,45,14],[4,12,19,26,38,42,10],[2,6,16,27,35,41,24],[8,11,20,29,31,39,7],[3,10,14,24,37,43,18],[7,15,18,23,32,40,5],[1,9,17,25,34,44,21],[5,8,19,28,36,42,12],[4,11,20,22,33,45,16],[2,13,21,26,30,39,8],[6,10,15,27,38,41,29],[3,7,16,24,35,43,11],[8,14,19,29,37,40,4],[1,12,18,23,31,42,17],[5,9,20,25,34,44,6],[4,10,17,28,32,39,22],[2,11,14,26,36,45,13],[6,13,19,22,33,41,7],[3,8,21,27,38,43,15],[7,10,16,24,30,40,18],[1,9,20,29,35,42,5],[5,11,15,23,37,39,28],[4,8,18,25,34,45,12],[2,12,19,27,31,43,9],[6,14,17,26,36,41,3],[3,10,20,22,32,44,16],[8,9,16,28,33,42,19],[1,7,21,24,38,40,11],[5,13,18,26,35,43,6],[4,11,14,23,30,39,27],[2,10,17,29,37,45,8],[6,8,20,25,34,42,15],[3,9,19,27,31,41,22],[7,12,15,28,36,44,4],[1,11,16,22,33,43,18],[5,10,21,24,32,40,9],[4,13,17,26,38,45,7],[2,8,18,23,35,41,28],[6,9,14,29,30,39,12],[3,7,20,25,34,42,16],[8,11,19,27,37,43,5],[1,10,17,24,36,44,21],[5,12,16,22,31,40,13],[4,9,21,28,33,41,6],[2,13,15,26,38,43,19],[6,10,18,23,35,42,8]];
-        function analyzeAndRecommend() {
-            const freq = Array(46).fill(0), bonusFreq = Array(46).fill(0);
-            HISTORICAL_DATA.forEach(d => { d.slice(0,6).forEach(n=>freq[n]++); bonusFreq[d[6]]++; });
-            const sortedByFreq = [...Array(45)].map((_,i)=>i+1).sort((a,b)=>freq[b]-freq[a]);
-            const cold = [...Array(45)].map((_,i)=>i+1).sort((a,b)=>freq[a]-freq[b]);
-            const pick = (arr,n) => { const s=new Set(); let i=0; while(s.size<n&&i<arr.length) s.add(arr[i++]); return Array.from(s).sort((a,b)=>a-b); };
-            const getBonus = (exclude) => { let best=0, maxF=0; for(let i=1;i<=45;i++) { if(exclude.has(i)) continue; if(bonusFreq[i]>maxF) { maxF=bonusFreq[i]; best=i; } } return best||Math.floor(Math.random()*45)+1; };
-            const s1=pick(sortedByFreq,6), b1=getBonus(new Set(s1));
-            const s2=pick(cold,6), b2=getBonus(new Set(s2));
-            const mix=[...pick(sortedByFreq,3),...pick(cold,3)].sort((a,b)=>a-b);
-            const s3=mix.length===6?mix:pick([...sortedByFreq,...cold],6), b3=getBonus(new Set(s3));
-            return [{label:'핫 넘버',desc:'최근 100회 최다 출현 번호',main:s1,bonus:b1},{label:'회귀 추천',desc:'오랫동안 미출현 번호',main:s2,bonus:b2},{label:'균형 추천',desc:'핫·콜드 번호 혼합',main:s3,bonus:b3}];
-        }
-        function renderRecommend() {
-            const recs = analyzeAndRecommend();
-            recommendDescEl.textContent = `역대 ${HISTORICAL_DATA.length}회 1등 당첨 데이터 분석`;
-            recommendListEl.innerHTML = recs.map((r,i) => `<div class="recommend-item"><div class="recommend-label">${i+1}. ${r.label} — ${r.desc}</div><div class="recommend-numbers">${r.main.map(n=>`<span class="ball">${n}</span>`).join('')}<span class="ball bonus">+${r.bonus}</span></div></div>`).join('');
-        }
-        renderRecommend();
     </script>
 </body>
 </html>
