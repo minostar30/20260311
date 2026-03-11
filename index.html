@@ -113,10 +113,17 @@
                 return `<div class="history-item">${mainHtml}<span class="history-num history-bonus">+${bonus}</span><span class="history-time">${time}</span></div>`;
             }).join('');
         }
+        async function saveToSupabase(main, bonus, source = 'random') {
+            try {
+                const res = await fetch('/api/save-lotto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ main, bonus, source }) });
+                if (!res.ok) console.warn('저장 실패');
+            } catch (e) { console.warn('저장 요청 실패:', e); }
+        }
         generateBtn.addEventListener('click', () => {
             const { main, bonus } = getRandomLotto();
             const time = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             displayNumbers(main, bonus); addToHistory(main, bonus, time);
+            saveToSupabase(main, bonus);
         });
         const winnerMetaEl = document.getElementById('winnerMeta'), winnerNumbersEl = document.getElementById('winnerNumbers');
         const FALLBACK_WINNER = { drwNo: 1214, date: '2026-03-07', main: [10,15,19,27,30,33], bonus: 14 };
