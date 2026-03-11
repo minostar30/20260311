@@ -1,46 +1,46 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 추천</title>
+    <title>Lucky Lotto Numbers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-red: #ff2d2d; --neon-gold: #ffd700; --neon-turquoise: #00e5ff; }
+        :root { --vegas-red: #c41e3a; --vegas-gold: #e6a800; --vegas-blue: #1e5aa8; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; -webkit-font-smoothing: antialiased; }
-        body { min-height: 100vh; font-family: 'Oswald', sans-serif; background: linear-gradient(180deg, #0d0d1a 0%, #1a1a2e 50%, #16213e 100%); color: #fff; line-height: 1.5; }
+        body { min-height: 100vh; font-family: 'Oswald', sans-serif; background: linear-gradient(180deg, #87ceeb 0%, #b8e4f5 40%, #e0f4fc 100%); color: #1a1a2e; line-height: 1.5; }
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; }
         .content { width: 100%; max-width: 440px; }
-        .header-sign { text-align: center; margin-bottom: 40px; padding: 32px 24px; background: linear-gradient(145deg, rgba(255,215,0,0.08) 0%, rgba(255,45,45,0.06) 50%, rgba(0,229,255,0.05) 100%); border: 2px solid rgba(255,215,0,0.4); border-radius: 16px; box-shadow: 0 0 20px rgba(255,215,0,0.3), 0 0 40px rgba(255,45,45,0.2), inset 0 0 30px rgba(255,215,0,0.05); }
-        .header-sign::before { content: '★'; display: block; font-size: 2rem; color: var(--neon-gold); text-shadow: 0 0 15px var(--neon-gold), 0 0 30px rgba(255,215,0,0.6); margin-bottom: 8px; animation: blink 2s ease-in-out infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.15em; color: #fff; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red), 0 0 40px rgba(255,45,45,0.6); margin-bottom: 4px; }
-        .header-accents { font-family: 'Yellowtail', cursive; font-size: 1.25rem; color: var(--neon-turquoise); text-shadow: 0 0 10px var(--neon-turquoise), 0 0 20px rgba(0,229,255,0.5); }
-        .subtitle { font-size: 0.875rem; color: var(--neon-gold); text-align: center; margin-top: 8px; text-shadow: 0 0 8px rgba(255,215,0,0.5); letter-spacing: 0.1em; }
+        .header-sign { text-align: center; margin-bottom: 40px; padding: 36px 28px; background: linear-gradient(180deg, #fff 0%, #faf9f5 100%); border: 4px solid var(--vegas-gold); border-radius: 16px; box-shadow: 0 8px 32px rgba(230,168,0,0.25), inset 0 1px 0 rgba(255,255,255,0.9); }
+        .header-sign::before { content: '★'; display: block; font-size: 2.25rem; color: #ff6b00; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header-top { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.2em; color: var(--vegas-red); margin-bottom: 2px; }
+        .header-mid { font-size: 0.75rem; color: var(--vegas-blue); margin-bottom: 2px; font-weight: 400; }
+        .header-script { font-family: 'Dancing Script', cursive; font-size: 1.5rem; font-weight: 600; color: var(--vegas-blue); margin-bottom: 4px; }
+        h1 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; font-weight: 400; letter-spacing: 0.15em; color: var(--vegas-red); margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+        .subtitle { font-size: 0.8125rem; color: var(--vegas-blue); font-weight: 600; text-align: center; letter-spacing: 0.08em; }
         .numbers-row { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: nowrap; margin-bottom: 48px; }
         .ball { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.125rem; flex-shrink: 0; transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
-        .ball.main { background: linear-gradient(145deg, var(--neon-red), #cc0000); color: #fff; box-shadow: 0 0 15px rgba(255,45,45,0.5), inset 0 1px 0 rgba(255,255,255,0.3); }
-        .ball.bonus { background: linear-gradient(145deg, #4a4a6a, #2d2d44); color: var(--neon-turquoise); box-shadow: 0 0 12px rgba(0,229,255,0.4); }
+        .ball.main { background: linear-gradient(145deg, var(--vegas-red), #a01830); color: #fff; box-shadow: 0 4px 12px rgba(196,30,58,0.35), inset 0 1px 0 rgba(255,255,255,0.3); }
+        .ball.bonus { background: linear-gradient(145deg, var(--vegas-blue), #154a8a); color: #fff; box-shadow: 0 4px 12px rgba(30,90,168,0.35), inset 0 1px 0 rgba(255,255,255,0.2); }
         .bonus-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-        .bonus-label { font-size: 0.75rem; color: var(--neon-turquoise); font-weight: 500; white-space: nowrap; text-shadow: 0 0 8px rgba(0,229,255,0.4); }
-        .ball.placeholder { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); font-weight: 500; }
-        .ball.main.placeholder { background: rgba(255,45,45,0.2); }
-        .ball.bonus.placeholder { background: rgba(0,229,255,0.15); color: rgba(0,229,255,0.5); }
+        .bonus-label { font-size: 0.75rem; color: var(--vegas-blue); font-weight: 600; white-space: nowrap; }
+        .ball.placeholder { background: rgba(255,255,255,0.6); color: #999; font-weight: 500; border: 2px dashed #ccc; }
+        .ball.main.placeholder { background: rgba(196,30,58,0.15); border-color: rgba(196,30,58,0.3); }
+        .ball.bonus.placeholder { background: rgba(30,90,168,0.15); border-color: rgba(30,90,168,0.3); color: #5a8ab8; }
         @media (max-width: 430px) { .ball { width: 36px; height: 36px; font-size: 0.9375rem; } .numbers-row { gap: 6px; } .bonus-label { font-size: 0.625rem; } .bonus-wrap { gap: 5px; } }
-        .btn { width: 100%; padding: 20px 24px; font-size: 1.1rem; font-weight: 600; font-family: 'Oswald', sans-serif; border: 2px solid var(--neon-gold); border-radius: 14px; cursor: pointer; background: linear-gradient(145deg, var(--neon-gold), #e6c200); color: #1a1a2e; transition: all 0.2s; text-shadow: 0 1px 0 rgba(255,255,255,0.3); box-shadow: 0 0 20px rgba(255,215,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5); letter-spacing: 0.05em; }
-        .btn:hover { box-shadow: 0 0 30px var(--neon-gold), 0 0 50px rgba(255,215,0,0.4); transform: translateY(-2px); }
+        .btn { width: 100%; padding: 20px 24px; font-size: 1.1rem; font-weight: 600; font-family: 'Oswald', sans-serif; border: 3px solid var(--vegas-gold); border-radius: 14px; cursor: pointer; background: linear-gradient(180deg, #ffd54f 0%, var(--vegas-gold) 100%); color: #1a1a2e; transition: all 0.2s; text-shadow: 0 1px 0 rgba(255,255,255,0.5); box-shadow: 0 6px 20px rgba(230,168,0,0.4), inset 0 1px 0 rgba(255,255,255,0.6); letter-spacing: 0.05em; }
+        .btn:hover { box-shadow: 0 8px 28px rgba(230,168,0,0.5); transform: translateY(-2px); }
         .btn:active { transform: scale(0.98); }
-        .history { margin-top: 64px; padding-top: 48px; border-top: 1px solid rgba(255,215,0,0.3); }
-        .history-title { font-size: 0.75rem; font-weight: 600; color: var(--neon-gold); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px; text-shadow: 0 0 8px rgba(255,215,0,0.3); }
-        .history-item { display: flex; align-items: center; gap: 10px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.9375rem; }
+        .history { margin-top: 64px; padding-top: 48px; border-top: 2px solid rgba(230,168,0,0.5); }
+        .history-title { font-size: 0.75rem; font-weight: 700; color: var(--vegas-blue); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 20px; }
+        .history-item { display: flex; align-items: center; gap: 10px; padding: 14px 0; border-bottom: 1px solid rgba(30,90,168,0.2); font-size: 0.9375rem; }
         .history-item:last-child { border-bottom: none; }
-        .history-nums { display: flex; gap: 8px; }
-        .history-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; background: linear-gradient(145deg, var(--neon-red), #aa0000); color: #fff; box-shadow: 0 0 8px rgba(255,45,45,0.3); }
-        .history-bonus { background: linear-gradient(145deg, #3d3d5c, #2a2a44) !important; color: var(--neon-turquoise) !important; box-shadow: 0 0 8px rgba(0,229,255,0.3); }
-        .history-time { margin-left: auto; font-size: 0.8125rem; color: rgba(255,255,255,0.6); }
+        .history-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; background: linear-gradient(145deg, var(--vegas-red), #a01830); color: #fff; box-shadow: 0 2px 8px rgba(196,30,58,0.3); }
+        .history-bonus { background: linear-gradient(145deg, var(--vegas-blue), #154a8a) !important; color: #fff !important; box-shadow: 0 2px 8px rgba(30,90,168,0.3); }
+        .history-time { margin-left: auto; font-size: 0.8125rem; color: var(--vegas-blue); }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .ball.animate { animation: fadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
     </style>
@@ -49,18 +49,20 @@
     <section class="hero">
         <div class="content">
             <div class="header-sign">
-                <h1>LOTTO</h1>
-                <span class="header-accents">로또 번호</span>
-                <p class="subtitle">추천 번호를 받아보세요</p>
+                <div class="header-top">WELCOME</div>
+                <div class="header-mid">to</div>
+                <div class="header-script">Lucky</div>
+                <h1>LOTTO NUMBERS</h1>
+                <p class="subtitle">Get your numbers</p>
             </div>
             <div class="numbers-row" id="numbers">
                 <span class="ball main placeholder">—</span><span class="ball main placeholder">—</span><span class="ball main placeholder">—</span>
                 <span class="ball main placeholder">—</span><span class="ball main placeholder">—</span><span class="ball main placeholder">—</span>
-                <span class="bonus-wrap"><span class="bonus-label">보너스번호</span><span class="ball bonus placeholder" id="bonusBall">—</span></span>
+                <span class="bonus-wrap"><span class="bonus-label">Bonus</span><span class="ball bonus placeholder" id="bonusBall">—</span></span>
             </div>
-            <button class="btn" id="generateBtn">행운의 로또 번호 추천 받기</button>
+            <button class="btn" id="generateBtn">Get Lucky Lotto Numbers</button>
             <div class="history" id="history">
-                <h2 class="history-title">추천 이력</h2>
+                <h2 class="history-title">History</h2>
                 <div id="historyList"></div>
             </div>
         </div>
@@ -78,7 +80,7 @@
         }
         function displayNumbers(main, bonus, animate = true) {
             const mainHtml = main.map((n,i) => `<span class="ball main${animate?' animate':''}" style="animation-delay:${i*0.06}s">${n}</span>`).join('');
-            const bonusHtml = `<span class="bonus-wrap"><span class="bonus-label">보너스번호</span><span class="ball bonus${animate?' animate':''}" style="animation-delay:0.36s">${bonus}</span></span>`;
+            const bonusHtml = `<span class="bonus-wrap"><span class="bonus-label">Bonus</span><span class="ball bonus${animate?' animate':''}" style="animation-delay:0.36s">${bonus}</span></span>`;
             numbersEl.innerHTML = mainHtml + bonusHtml;
         }
         function addToHistory(main, bonus, time) {
@@ -92,12 +94,12 @@
         async function saveToSupabase(main, bonus, source = 'random') {
             try {
                 const res = await fetch('/api/save-lotto', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ main, bonus, source }) });
-                if (!res.ok) console.warn('저장 실패');
-            } catch (e) { console.warn('저장 요청 실패:', e); }
+                if (!res.ok) console.warn('Save failed');
+            } catch (e) { console.warn('Save request failed:', e); }
         }
         generateBtn.addEventListener('click', () => {
             const { main, bonus } = getRandomLotto();
-            const time = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             displayNumbers(main, bonus); addToHistory(main, bonus, time);
             saveToSupabase(main, bonus);
         });
